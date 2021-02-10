@@ -1,5 +1,7 @@
+import 'package:Shopify/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import '../models/product.dart';
+
 class ProductsOverviewScreen extends StatelessWidget {
   final List<Product> loadedProducts = [
     Product(
@@ -37,8 +39,23 @@ class ProductsOverviewScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shopify'),
+      ),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(10.0),
+        itemCount: loadedProducts.length,
+        itemBuilder: (ctx, index) {
+          return ProductItem(id: loadedProducts[index].id,title: loadedProducts[index].title, imageUrl: loadedProducts[index].imageUrl,);
+        },
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+      ),
     );
   }
 }
