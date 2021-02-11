@@ -1,3 +1,4 @@
+import 'package:Shopify/screens/product_details_screen.dart';
 import 'package:Shopify/screens/products_overview_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -9,10 +10,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyShop',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        accentColor: Colors.deepOrange,
+        fontFamily: 'Lato',
+        
       ),
+      
       home: MyHomePage(),
+      routes: {
+        ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen()
+      },
     );
+    
   }
 }
 
