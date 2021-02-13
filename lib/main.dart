@@ -10,19 +10,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ProductProviders(),
-        child: MaterialApp(
-          title: 'MyShop',
-          theme: ThemeData(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
-            fontFamily: 'Lato',
-          ),
-          home: MyHomePage(),
-          routes: {
-            ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen()
-          },
-        ));
+      create: (context) => ProductProviders(),
+      child: MaterialApp(
+        title: 'MyShop',
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.deepOrange,
+          fontFamily: 'Lato',
+        ),
+        home: MyHomePage(),
+        routes: {
+          ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen()
+        },
+      ),
+    );
   }
 }
 
