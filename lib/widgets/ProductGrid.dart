@@ -1,4 +1,5 @@
-import 'package:Shopify/models/product.dart';
+
+import 'package:Shopify/providers/product.dart';
 import 'package:Shopify/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +15,11 @@ class ProductGridView extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
       itemBuilder: (ctx, index) {
-        return ProductItem(
-          id: products[index].id,
-          title: products[index].title,
-          imageUrl: products[index].imageUrl,
-        );
+        return ChangeNotifierProvider.value(child: ProductItem(
+          // id: products[index].id,
+          // title: products[index].title,
+          // imageUrl: products[index].imageUrl,
+        ),value: products[index] ,);
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

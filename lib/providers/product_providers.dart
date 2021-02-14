@@ -1,4 +1,5 @@
-import 'package:Shopify/models/product.dart';
+
+import 'package:Shopify/providers/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductProviders with ChangeNotifier {
@@ -39,6 +40,10 @@ class ProductProviders with ChangeNotifier {
 
   List<Product> get items {
     return [..._items];
+  }
+
+  Product getProduct(String id){
+    return _items.firstWhere((meal) => meal.id == id );
   }
 
   void addProduct() {
