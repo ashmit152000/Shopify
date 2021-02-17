@@ -38,9 +38,30 @@ class ProductProviders with ChangeNotifier {
     ),
   ];
 
-  List<Product> get items {
-    return [..._items];
+ 
+
+  List<Product> get favorites {
+    return _items.where((prodItem) => prodItem.isFavourite).toList();
   }
+
+  List<Product> get items {
+    
+     
+      return [..._items];
+    
+    
+  }
+
+  // void showFavouritesOnly() {
+  //   _showFavouritesOnly = true;
+  //   notifyListeners();
+  // }
+
+  // void showAll() {
+  //   _showFavouritesOnly = false;
+  //   notifyListeners();
+  // }
+
 
   Product getProduct(String id){
     return _items.firstWhere((meal) => meal.id == id );

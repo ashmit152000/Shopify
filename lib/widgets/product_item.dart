@@ -11,14 +11,14 @@ class ProductItem extends StatelessWidget {
   // ProductItem({this.id, this.title, this.imageUrl});
   @override
   Widget build(BuildContext context) {
-    var product = Provider.of<Product>(context);
+    var product = Provider.of<Product>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(15)),
       child: GridTile(
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(ProductDetailsScreen.routeName, arguments: product.id);
+            Navigator.of(context).pushNamed(ProductDetailsScreen.routeName,
+                arguments: product.id);
           },
           child: Image.network(
             product.imageUrl,
@@ -28,10 +28,16 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            icon: Icon( product.isFavourite ? Icons.favorite : Icons.favorite_outline),
-            onPressed: () {product.toggleFavourite();},
-            color: Theme.of(context).accentColor,
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              icon: Icon(product.isFavourite
+                  ? Icons.favorite
+                  : Icons.favorite_outline),
+              onPressed: () {
+                product.toggleFavourite();
+              },
+              color: Theme.of(context).accentColor,
+            ),
           ),
           title: Text(
             product.title,
