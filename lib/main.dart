@@ -1,4 +1,5 @@
 import 'package:Shopify/providers/cart.dart';
+import 'package:Shopify/screens/cart_screen.dart';
 import 'package:Shopify/screens/product_details_screen.dart';
 import 'package:Shopify/screens/products_overview_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         ),
         home: MyHomePage(),
         routes: {
-          ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen()
+          ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
+          CartScreen.routeName: (ctx) => CartScreen()
         },
       ),
     );
