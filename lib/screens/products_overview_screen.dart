@@ -1,5 +1,7 @@
+import 'package:Shopify/providers/cart.dart';
 import 'package:Shopify/providers/product.dart';
 import 'package:Shopify/providers/product_providers.dart';
+import 'package:Shopify/widgets/badge.dart';
 import 'package:Shopify/widgets/productgrid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     // final productContainer = Provider.of<ProductProviders>(context, listen: false);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopify'),
@@ -45,13 +47,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 } else {
                   //..
                   // productContainer.showAll();
-                  
+
                   _showOnlyFavourites = false;
                   // print(_showOnlyFavourites);
                 }
               });
             },
-          )
+          ),
+          Consumer<Cart>(builder: (context, cart, ch) => Badge(
+            child: ch,
+            value: cart.cartItemCount.toString(),
+          ),child: Icon(Icons.shopping_cart)) 
         ],
       ),
       body: ProductGridView(_showOnlyFavourites),
