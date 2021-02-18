@@ -13,10 +13,11 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  var _showOnlyFavourites = false;
   @override
   Widget build(BuildContext context) {
     // final productContainer = Provider.of<ProductProviders>(context, listen: false);
-    var _showOnlyFavourites = false;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopify'),
@@ -40,13 +41,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   // productContainer.showFavouritesOnly();
 
                   _showOnlyFavourites = true;
-                  print(_showOnlyFavourites);
+                  // print(_showOnlyFavourites);
                 } else {
                   //..
                   // productContainer.showAll();
-
+                  
                   _showOnlyFavourites = false;
-                  print(_showOnlyFavourites);
+                  // print(_showOnlyFavourites);
                 }
               });
             },

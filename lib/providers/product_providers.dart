@@ -1,4 +1,3 @@
-
 import 'package:Shopify/providers/product.dart';
 import 'package:flutter/material.dart';
 
@@ -38,18 +37,12 @@ class ProductProviders with ChangeNotifier {
     ),
   ];
 
- 
-
   List<Product> get favorites {
-    return _items.where((prodItem) => prodItem.isFavourite).toList();
+    return _items.where((prodItem) => prodItem.isFavourite == true).toList();
   }
 
   List<Product> get items {
-    
-     
-      return [..._items];
-    
-    
+    return [..._items];
   }
 
   // void showFavouritesOnly() {
@@ -62,9 +55,8 @@ class ProductProviders with ChangeNotifier {
   //   notifyListeners();
   // }
 
-
-  Product getProduct(String id){
-    return _items.firstWhere((meal) => meal.id == id );
+  Product getProduct(String id) {
+    return _items.firstWhere((meal) => meal.id == id);
   }
 
   void addProduct() {
