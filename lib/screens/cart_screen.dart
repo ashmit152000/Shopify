@@ -1,6 +1,7 @@
 import 'package:Shopify/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/shopping-cart';
@@ -17,24 +18,49 @@ class CartScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Total',
                     style: TextStyle(fontSize: 20),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  Spacer(),
                   Consumer<Cart>(
                     builder: (context, cart, ch) => Chip(
-                      label: Text("\$${cart.totalAmount}"),
+                      label: Text(
+                        "\$${cart.totalAmount}",
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                .color),
+                      ),
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
-                  )
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Order Now',
+                    ),
+                    onPressed: () {},
+                    // color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).primaryColor,
+                  ),
                 ],
               ),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          Consumer<Cart>(
+            builder: (context, cart, build) => Expanded(
+              child: ListView.builder(
+                itemCount: cart.items.length,
+                itemBuilder:(ctx, i) => CartItem(cart.items.values.toList()[i].id, cart.items.values.toList()[i].price, cart.items.values.toList()[i].quantity, cart.items.values.toList()[i].title),
+              ),
+            ),
+          )
         ],
       ),
     );
