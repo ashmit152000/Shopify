@@ -2,7 +2,9 @@ import 'package:Shopify/providers/cart.dart';
 import 'package:Shopify/providers/product.dart';
 import 'package:Shopify/providers/product_providers.dart';
 import 'package:Shopify/screens/cart_screen.dart';
+import 'package:Shopify/screens/orders_screen.dart';
 import 'package:Shopify/widgets/badge.dart';
+import 'package:Shopify/widgets/drawer.dart';
 import 'package:Shopify/widgets/productgrid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +27,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: AppBar(
         title: Text('Shopify'),
         actions: [
-           Consumer<Cart>(
+          Consumer<Cart>(
             builder: (context, cart, ch) => Badge(
               child: ch,
               value: cart.cartItemCount.toString(),
@@ -37,7 +39,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               },
             ),
           ),
-          
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             itemBuilder: (_) => [
@@ -68,10 +69,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               });
             },
           ),
-         
         ],
       ),
       body: ProductGridView(_showOnlyFavourites),
+      drawer: AppDrawer(),
     );
   }
 }

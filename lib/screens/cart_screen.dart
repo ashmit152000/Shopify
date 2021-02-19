@@ -2,11 +2,14 @@ import 'package:Shopify/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
+import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/shopping-cart';
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Cart'),
@@ -42,7 +45,10 @@ class CartScreen extends StatelessWidget {
                     child: Text(
                       'Order Now',
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(cart.items.values.toList(), cart.totalAmount);
+                      cart.clearCart();
+                    },
                     // color: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).primaryColor,
                   ),
