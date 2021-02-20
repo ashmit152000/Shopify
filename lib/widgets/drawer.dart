@@ -1,5 +1,6 @@
 import 'package:Shopify/screens/orders_screen.dart';
 import 'package:Shopify/screens/products_overview_screen.dart';
+import 'package:Shopify/screens/user_products_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -34,6 +35,18 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(OrdersScreen.routeName);
+              },
+            ),
+
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(
+                'Manage Products',
+                style: TextStyle(fontSize: 15),
+              ),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(UserProductsScreen.routeName);
               },
             ),
 

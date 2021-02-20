@@ -1,3 +1,5 @@
+import 'package:Shopify/providers/product.dart';
+import 'package:Shopify/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
 
 class CartItemData {
@@ -21,14 +23,12 @@ class Cart with ChangeNotifier {
   }
 
   int get cartItemCount {
-    return  _items.length;
+    return _items.length;
   }
 
   double get totalAmount {
     var total = 0.0;
-    _items.forEach((key, cartItem) => {
-      total += cartItem.price
-    });
+    _items.forEach((key, cartItem) => {total += cartItem.price});
     return total;
   }
 
@@ -54,13 +54,32 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(String id){
+  void removeItem(String id) {
     _items.remove(id);
-     notifyListeners();
+    notifyListeners();
   }
 
   void clearCart() {
     _items = {};
+    notifyListeners();
+  }
+
+  void removeSingleItem(String productId) {
+    if (_items.containsKey(productId)) {
+      if (_items[productId].quantity > 1) {
+        _items.update(
+          productId,
+          (existingItem) => CartItemData(
+            id: existingItem.id,
+            title: existingItem.title,
+            quantity: existingItem.quantity,
+            price: existingItem.price - 1,
+          ),
+        );
+      }else {
+        _items.remove(productId);
+      }
+    }
     notifyListeners();
   }
 }
