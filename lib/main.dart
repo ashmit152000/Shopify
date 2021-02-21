@@ -1,6 +1,7 @@
 import 'package:Shopify/providers/cart.dart';
 import 'package:Shopify/providers/orders.dart';
 import 'package:Shopify/screens/cart_screen.dart';
+import 'package:Shopify/screens/edit_product_screen.dart';
 import 'package:Shopify/screens/orders_screen.dart';
 import 'package:Shopify/screens/product_details_screen.dart';
 import 'package:Shopify/screens/products_overview_screen.dart';
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
           ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          UserProductsScreen.routeName: (ctx) => UserProductsScreen()
+          UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
+          EditProductsScreen.routeName: (ctx) => EditProductsScreen(),
         },
       
       ),

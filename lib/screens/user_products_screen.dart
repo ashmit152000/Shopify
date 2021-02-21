@@ -1,5 +1,6 @@
 import 'package:Shopify/providers/product.dart';
 import 'package:Shopify/providers/product_providers.dart';
+import 'package:Shopify/screens/edit_product_screen.dart';
 import 'package:Shopify/widgets/drawer.dart';
 import 'package:Shopify/widgets/user_product_item.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ class UserProductsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditProductsScreen.routeName);
+            },
           )
         ],
       ),
@@ -28,7 +31,7 @@ class UserProductsScreen extends StatelessWidget {
             children: [
               UserProductItem(
                   productData.items[i].title, productData.items[i].imageUrl),
-                  Divider(),
+              Divider(),
             ],
           ),
         ),

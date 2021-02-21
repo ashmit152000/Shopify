@@ -1,3 +1,4 @@
+import 'package:Shopify/screens/edit_product_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -15,11 +16,12 @@ class UserProductItem extends StatelessWidget {
       trailing: Container(
         width: 100,
         child: Row(
-          
           children: [
             IconButton(
               icon: Icon(Icons.edit),
-              onPressed: () {},
+              onPressed: () {
+                
+              },
               color: Theme.of(context).primaryColor,
             ),
             IconButton(
