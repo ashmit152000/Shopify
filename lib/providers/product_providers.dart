@@ -59,7 +59,27 @@ class ProductProviders with ChangeNotifier {
     return _items.firstWhere((meal) => meal.id == id);
   }
 
-  void addProduct() {
+  void updateProduct(String id, Product newProduct){
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if(prodIndex >= 0){
+       _items[prodIndex] = newProduct;
+        notifyListeners();
+    }else{
+      print('...');
+    }
+   
+   
+  }
+
+  void addProduct(Product p) {
+    final newProduct = Product(
+      title: p.title,
+      price: p.price,
+      description: p.description,
+      imageUrl: p.imageUrl,
+      id: DateTime.now().toString(),
+    );
+    _items.insert(0, newProduct);
     notifyListeners();
   }
 }

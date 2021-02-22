@@ -2,10 +2,11 @@ import 'package:Shopify/screens/edit_product_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserProductItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageUrl;
 
-  UserProductItem(this.title, this.imageUrl);
+  UserProductItem(this.id, this.title, this.imageUrl);
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -20,7 +21,7 @@ class UserProductItem extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                
+                Navigator.of(context).pushNamed(EditProductsScreen.routeName, arguments: id);
               },
               color: Theme.of(context).primaryColor,
             ),
