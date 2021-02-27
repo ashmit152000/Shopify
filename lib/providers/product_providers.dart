@@ -1,5 +1,7 @@
 import 'package:Shopify/providers/product.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ProductProviders with ChangeNotifier {
   List<Product> _items = [
@@ -59,27 +61,46 @@ class ProductProviders with ChangeNotifier {
     return _items.firstWhere((meal) => meal.id == id);
   }
 
-  void updateProduct(String id, Product newProduct){
+  void updateProduct(String id, Product newProduct) {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
-    if(prodIndex >= 0){
-       _items[prodIndex] = newProduct;
-        notifyListeners();
-    }else{
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    } else {
       print('...');
     }
-   
-   
   }
 
-  void addProduct(Product p) {
-    final newProduct = Product(
-      title: p.title,
-      price: p.price,
-      description: p.description,
-      imageUrl: p.imageUrl,
-      id: DateTime.now().toString(),
-    );
-    _items.insert(0, newProduct);
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
+  }
+
+  Future<void> addProduct(Product p) {
+    const url =
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products';
+    return http
+        .post(
+      url,
+      body: json.encode({
+        'title': p.title,
+        'description': p.description,
+        'price': p.price,
+        'imageUrl': p.imageUrl,
+        'isFavourite': p.isFavourite,
+        
+      }),
+    ).then((response) {
+      final newProduct = Product(
+        title: p.title,
+        price: p.price,
+        description: p.description,
+        imageUrl: p.imageUrl,
+        id: json.decode(response.body)['name'],
+        
+      );
+      _items.insert(0, newProduct);
+      notifyListeners();
+    });
   }
 }
