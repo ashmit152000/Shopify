@@ -15,10 +15,33 @@ class ProductsOverviewScreen extends StatefulWidget {
   // final List<Product> loadedProducts = ;
   @override
   _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+
+  
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  
   var _showOnlyFavourites = false;
+  var _isInit = true;
+
+  @override
+  void initState() {
+  
+    super.initState();
+    
+  }
+
+  @override
+    void didChangeDependencies() {
+      // TODO: implement didChangeDependencies
+      if(_isInit){
+         Provider.of<ProductProviders>(context).fetchData();
+      }
+      _isInit = false;
+      super.didChangeDependencies();
+    }
+ 
+
   @override
   Widget build(BuildContext context) {
     // final productContainer = Provider.of<ProductProviders>(context, listen: false);

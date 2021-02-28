@@ -76,31 +76,44 @@ class ProductProviders with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addProduct(Product p) {
+  Future<void> fetchData() async {
+    const url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json';
+    try {
+      final response = await http.get(url);
+      print(json.decode(response.body));
+    }catch(error){
+      throw error;
+    }
+    
+  }
+
+  Future<void> addProduct(Product p) async {
     const url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products';
-    return http
-        .post(
-      url,
-      body: json.encode({
-        'title': p.title,
-        'description': p.description,
-        'price': p.price,
-        'imageUrl': p.imageUrl,
-        'isFavourite': p.isFavourite,
-        
-      }),
-    ).then((response) {
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json';
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': p.title,
+          'description': p.description,
+          'price': p.price,
+          'imageUrl': p.imageUrl,
+          'isFavourite': p.isFavourite,
+        }),
+      );
       final newProduct = Product(
         title: p.title,
         price: p.price,
         description: p.description,
         imageUrl: p.imageUrl,
         id: json.decode(response.body)['name'],
-        
       );
       _items.insert(0, newProduct);
       notifyListeners();
-    });
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 }
