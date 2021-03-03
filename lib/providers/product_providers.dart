@@ -1,3 +1,4 @@
+import 'package:Shopify/models/http_exception.dart';
 import 'package:Shopify/providers/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -63,22 +64,22 @@ class ProductProviders with ChangeNotifier {
 
   Future<void> updateProduct(String id, Product newProduct) async {
     final url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/$id.json';
-   
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json';
+
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-       await http.patch(
-      url,
-      body: json.encode(
-        {
-          'title': newProduct.title,
-          'description': newProduct.description,
-          'imageUrl': newProduct.imageUrl,
-          'price': newProduct.imageUrl,
-          // 'isFavourite': newProduct.isFavourite
-        },
-      ),
-    );
+      await http.patch(
+        url,
+        body: json.encode(
+          {
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.imageUrl,
+            // 'isFavourite': newProduct.isFavourite
+          },
+        ),
+      );
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
@@ -86,9 +87,25 @@ class ProductProviders with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url =
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json';
+
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    var exisitingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, exisitingProduct);
+      notifyListeners();
+      throw HttpException("Couldn\'t delete product");
+    } else {
+      exisitingProduct = null;
+    }
+
+    // _items.removeWhere((prod) => prod.id == id);
   }
 
   Future<void> fetchData() async {
@@ -97,6 +114,7 @@ class ProductProviders with ChangeNotifier {
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(
@@ -114,6 +132,7 @@ class ProductProviders with ChangeNotifier {
       });
       print(json.decode(response.body));
     } catch (error) {
+      print(error);
       throw error;
     }
   }
