@@ -1,5 +1,7 @@
+import 'package:Shopify/providers/auth.dart';
 import 'package:Shopify/providers/cart.dart';
 import 'package:Shopify/providers/orders.dart';
+import 'package:Shopify/screens/auth_screen.dart';
 import 'package:Shopify/screens/cart_screen.dart';
 import 'package:Shopify/screens/edit_product_screen.dart';
 import 'package:Shopify/screens/orders_screen.dart';
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Orders(),
         ),
+        ChangeNotifierProvider.value(
+          value: Auth(),
+        ),
       ],
       child: MaterialApp(
         title: 'MyShop',
@@ -34,15 +39,15 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: MyHomePage(),
+        home: AuthScreen(),
         routes: {
           ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
           UserProductsScreen.routeName: (ctx) => UserProductsScreen(),
           EditProductsScreen.routeName: (ctx) => EditProductsScreen(),
+          AuthScreen.routeName: (ctx) => AuthScreen()
         },
-      
       ),
     );
   }

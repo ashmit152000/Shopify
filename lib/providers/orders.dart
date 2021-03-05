@@ -20,11 +20,43 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  Future<void> fetchAndSetOrders() async {
+    const url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/orders.json';
+
+    final response = await http.get(url);
+    final List<OrderItem> loadedItem = [];
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+    if (extractedData == null) {
+      return;
+    }
+
+    extractedData.forEach((orderId, orderData) {
+      loadedItem.add(
+        OrderItem(
+          id: orderId,
+          amount: orderData['amount'],
+          dateTime: DateTime.parse(orderData['dateTime']),
+          products: (orderData['products'] as List<dynamic>)
+              .map(
+                (item) => CartItemData(
+                  id: item['id'],
+                  price: item['price'],
+                  title: item['title'],
+                  quantity: item['quantity'],
+                ),
+              )
+              .toList(),
+        ),
+      );
+    });
+    _orders = loadedItem.reversed.toList();
+  }
+
   Future<void> addOrder(List<CartItemData> cartProducts, double total) async {
     const url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/orders.json';
 
     try {
-      
       final response = await http.post(
         url,
         body: json.encode(
@@ -55,7 +87,6 @@ class Orders with ChangeNotifier {
         ),
       );
       notifyListeners();
-      
     } catch (error) {
       print(error);
 
