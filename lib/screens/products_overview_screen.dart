@@ -13,6 +13,7 @@ enum FilterOptions { Favourites, All }
 
 class ProductsOverviewScreen extends StatefulWidget {
   // final List<Product> loadedProducts = ;
+  static const routeName = '/product-overview';
   @override
   _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
 }

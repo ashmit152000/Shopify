@@ -122,7 +122,7 @@ class ProductProviders with ChangeNotifier {
             id: prodId,
             title: prodData['title'],
             description: prodData['description'],
-            price: prodData['price'],
+            price: double.parse(prodData['price']),
             imageUrl: prodData['imageUrl'],
             isFavourite: prodData['isFavourite'],
           ),
@@ -132,7 +132,7 @@ class ProductProviders with ChangeNotifier {
       });
       print(json.decode(response.body));
     } catch (error) {
-      print(error);
+      // print(error);
       throw error;
     }
   }
@@ -162,7 +162,7 @@ class ProductProviders with ChangeNotifier {
       _items.insert(0, newProduct);
       notifyListeners();
     } catch (error) {
-      print(error);
+      // print(error);
       throw error;
     }
   }

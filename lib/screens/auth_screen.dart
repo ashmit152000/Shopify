@@ -146,7 +146,7 @@ class _AuthCardState extends State<AuthCard> {
       // Log user in
       try {
         await Provider.of<Auth>(context, listen: false)
-            .signIn(_authData['email'], _authData['password']);
+            .signIn(_authData['email'], _authData['password'],context);
       } on HttpException catch (error) {
         var errorMessage = "Aunthentication issue";
         if (error.toString().contains('EMAIL_EXISTS')) {
