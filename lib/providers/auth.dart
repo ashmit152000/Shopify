@@ -44,6 +44,10 @@ class Auth with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+      setToken(responseData['idToken']);
+      userId = responseData['localId'];
+      print(getToken());
+      notifyListeners();
     } catch (error) {
       // print(error);
       throw error;
