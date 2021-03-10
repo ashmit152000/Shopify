@@ -40,6 +40,10 @@ class ProductProviders with ChangeNotifier {
     // ),
   ];
 
+  final String authToken;
+
+  ProductProviders(this.authToken,this._items);
+
   List<Product> get favorites {
     return _items.where((prodItem) => prodItem.isFavourite == true).toList();
   }
@@ -64,7 +68,7 @@ class ProductProviders with ChangeNotifier {
 
   Future<void> updateProduct(String id, Product newProduct) async {
     final url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json';
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json?auth=$authToken';
 
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
@@ -89,7 +93,7 @@ class ProductProviders with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json';
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json?auth=$authToken';
 
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var exisitingProduct = _items[existingProductIndex];
@@ -109,8 +113,8 @@ class ProductProviders with ChangeNotifier {
   }
 
   Future<void> fetchData() async {
-    const url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json';
+    final url =
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -133,13 +137,13 @@ class ProductProviders with ChangeNotifier {
       print(json.decode(response.body));
     } catch (error) {
       // print(error);
-      throw error;
+      // throw error;
     }
   }
 
   Future<void> addProduct(Product p) async {
-    const url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json';
+    final url =
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json?auth=$authToken';
 
     try {
       final response = await http.post(

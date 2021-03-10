@@ -1,3 +1,4 @@
+import 'package:Shopify/providers/auth.dart';
 import 'package:Shopify/providers/cart.dart';
 import 'package:Shopify/providers/product.dart';
 import 'package:Shopify/screens/product_details_screen.dart';
@@ -14,6 +15,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cartContainer = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(15)),
       child: GridTile(
@@ -37,7 +39,7 @@ class ProductItem extends StatelessWidget {
                   : Icons.favorite_outline),
               onPressed: () async {
                 try {
-                  await product.toggleFavourite();
+                  await product.toggleFavourite(auth.token);
                 } catch (error) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(

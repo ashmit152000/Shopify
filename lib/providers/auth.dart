@@ -8,19 +8,19 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Auth with ChangeNotifier {
-  String _token;
+  String token;
   DateTime expiryDate;
   String userId;
 
   bool  getToken() {
-    if(_token != null){
+    if(token != null){
       return true;
     }
     return false;
   }
 
     void setToken(String value){
-    this._token = value;
+    this.token = value;
   }
 
   Future<void> signUp(String email, String password) async {
@@ -78,7 +78,7 @@ class Auth with ChangeNotifier {
         throw HttpException(responseData['error']['message'].toString());
       }
 
-      // _token = responseData['idToken'];
+      // token = responseData['idToken'];
       setToken(responseData['idToken']);
       userId = responseData['localId'];
       print(getToken());

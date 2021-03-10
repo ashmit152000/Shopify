@@ -20,9 +20,9 @@ class Product with ChangeNotifier {
       @required this.imageUrl,
       this.isFavourite = false});
 
-  void toggleFavourite() async {
+  void toggleFavourite(String authToken) async {
     final url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json';
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json?auth=$authToken';
     final oldStatus = isFavourite;
     isFavourite = !isFavourite;
     notifyListeners();
