@@ -41,11 +41,11 @@ class ProductProviders with ChangeNotifier {
   ];
 
   final String authToken;
-
-  ProductProviders(this.authToken,this._items);
+  final String userId;
+  ProductProviders(this.authToken,this._items,this.userId);
 
   List<Product> get favorites {
-    return _items.where((prodItem) => prodItem.isFavourite == true).toList();
+    return _items.where((prodItem) => prodItem.isFavorite == true).toList();
   }
 
   List<Product> get items {
@@ -119,6 +119,13 @@ class ProductProviders with ChangeNotifier {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
 
+      if(extractedData == null){
+        return ;
+      }
+      final urlTwo =
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/userFavourite/$userId.json?auth=$authToken';
+      final favouriteResponse = await http.get(urlTwo);
+      final favouriteData = json.decode(favouriteResponse.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(
@@ -126,9 +133,9 @@ class ProductProviders with ChangeNotifier {
             id: prodId,
             title: prodData['title'],
             description: prodData['description'],
-            price: double.parse(prodData['price']),
+            price: prodData['price'],
             imageUrl: prodData['imageUrl'],
-            isFavourite: prodData['isFavourite'],
+            isFavorite: favouriteData == null ? false : favouriteData[prodId] ?? false,
           ),
         );
         _items = loadedProducts;
@@ -137,7 +144,7 @@ class ProductProviders with ChangeNotifier {
       print(json.decode(response.body));
     } catch (error) {
       // print(error);
-      // throw error;
+      throw error;
     }
   }
 
@@ -153,7 +160,7 @@ class ProductProviders with ChangeNotifier {
           'description': p.description,
           'price': p.price,
           'imageUrl': p.imageUrl,
-          'isFavourite': p.isFavourite,
+          
         }),
       );
       final newProduct = Product(

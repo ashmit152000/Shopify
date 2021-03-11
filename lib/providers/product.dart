@@ -10,7 +10,8 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
-  bool isFavourite;
+  bool isFavorite;
+  // bool isFavourite;
 
   Product(
       {@required this.id,
@@ -18,35 +19,28 @@ class Product with ChangeNotifier {
       @required this.description,
       @required this.price,
       @required this.imageUrl,
-      this.isFavourite = false});
+      this.isFavorite});
 
-  void toggleFavourite(String authToken) async {
+  void toggleFavourite(String authToken, String userId) async {
     final url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products/${id}.json?auth=$authToken';
-    final oldStatus = isFavourite;
-    isFavourite = !isFavourite;
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/userFavourite/$userId/${id}.json?auth=$authToken';
+    final oldStatus = isFavorite;
+    isFavorite = !isFavorite;
     notifyListeners();
     try {
-      final response = await http.patch(
-      url,
-      body: json.encode(
-        {'isFavourite': isFavourite},
-      )
-      
-    );
-    if(response.statusCode >= 400){
-       isFavourite = oldStatus;
-      notifyListeners();
-      throw HttpException("Couldn\'t add to Favourites");
-     
-    }
-    // isFavourite = isFavourite;
+      final response = await http.put(url,
+          body: json.encode(
+            isFavorite,
+          ));
+      if (response.statusCode >= 400) {
+        notifyListeners();
+        throw HttpException("Couldn\'t add to Favourites");
+      }
+      // isFavourite = isFavourite;
     } catch (error) {
-      isFavourite = oldStatus;
+      isFavorite = oldStatus;
       notifyListeners();
       throw error;
     }
-    
-    
   }
 }
