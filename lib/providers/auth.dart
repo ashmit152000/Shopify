@@ -105,7 +105,7 @@ class Auth with ChangeNotifier {
     }
   }
 
-  void logout() {
+  void logout() async {
     token = null;
     userId = null;
     expiryDate = null;
@@ -114,6 +114,9 @@ class Auth with ChangeNotifier {
     }
     
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    //prefs.remove('userData'); // This is to remove some specific data
+    prefs.clear();// This is to remove all the data in the sharedpreferences
   }
 
   Future<bool> tryAutoLogin() async {
