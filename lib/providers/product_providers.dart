@@ -112,9 +112,10 @@ class ProductProviders with ChangeNotifier {
     // _items.removeWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchData() async {
+  Future<void> fetchData([bool filterByUser = false]) async {
+    var filterString = filterByUser ?'orderBy="creatorId"&equalTo="$userId"' : "";
     final url =
-        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json?auth=$authToken';
+        'https://shopify-ae99f-default-rtdb.firebaseio.com/products.json?auth=$authToken&$filterString';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -160,7 +161,7 @@ class ProductProviders with ChangeNotifier {
           'description': p.description,
           'price': p.price,
           'imageUrl': p.imageUrl,
-          
+          'creatorId': userId,
         }),
       );
       final newProduct = Product(

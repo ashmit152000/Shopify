@@ -20,11 +20,12 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
   final String authToken;
+  final String userId;
   
-  Orders(this.authToken, this._orders);
+  Orders(this.authToken, this._orders,this.userId);
 
   Future<void> fetchAndSetOrders() async {
-    final url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/orders.json?auth=$authToken';
+    final url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken';
 
     final response = await http.get(url);
     final List<OrderItem> loadedItem = [];
@@ -57,7 +58,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItemData> cartProducts, double total) async {
-    final url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/orders.json?auth=$authToken';
+    final url = 'https://shopify-ae99f-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken';
 
     try {
       final response = await http.post(
