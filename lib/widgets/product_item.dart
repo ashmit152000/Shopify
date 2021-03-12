@@ -24,22 +24,21 @@ class ProductItem extends StatelessWidget {
             Navigator.of(context).pushNamed(ProductDetailsScreen.routeName,
                 arguments: product.id);
           },
-          child: Image.network(
-            product.imageUrl,
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/product-placeholder.png'),
+            image: NetworkImage(product.imageUrl),
             fit: BoxFit.cover,
-            height: 250,
           ),
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           leading: Consumer<Product>(
             builder: (ctx, product, child) => IconButton(
-              icon: Icon(product.isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_outline),
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_outline),
               onPressed: () async {
                 try {
-                  await product.toggleFavourite(auth.token,auth.userId);
+                  await product.toggleFavourite(auth.token, auth.userId);
                 } catch (error) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
